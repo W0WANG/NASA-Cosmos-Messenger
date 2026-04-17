@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -10,11 +12,28 @@ android {
     defaultConfig {
         applicationId = "com.example.nasacosmosmessenger"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // 讀取 local.properties
+        val localProperties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localProperties.load(localPropertiesFile.inputStream())
+        }
+
+        val nasaApiKey = localProperties.getProperty("NASA_API_KEY") ?: ""
+
+        // 注意：buildConfigField 在 kts 裡的語法要確保型別正確
+        buildConfigField("String", "NASA_API_KEY", "\"$nasaApiKey\"")
+    }
+
+    // 開啟 BuildConfig 功能 (Android Studio 新版本預設可能關閉)
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
