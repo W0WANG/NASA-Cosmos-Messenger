@@ -44,4 +44,10 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.3.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")
+    // 網路連線工具
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    // JSON 轉物件工具
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    // 圖片載入工具
+    implementation("io.coil-kt:coil:2.4.0")
 }
