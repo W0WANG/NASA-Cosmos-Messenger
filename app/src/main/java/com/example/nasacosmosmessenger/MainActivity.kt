@@ -52,27 +52,15 @@ class MainActivity : AppCompatActivity() {
                 addMessage(Message(input, true))
 
                 // 判斷是否為日期格式 (簡單判斷)
-                if (input.matches(Regex("\\d{4}-\\d{2}-\\d{2}"))) {
-                    fetchNasaData(input)
+                val normalizedInput = input.replace("/", "-")  // 統一轉成 YYYY-MM-DD
+
+                if (normalizedInput.matches(Regex("\\d{4}-\\d{2}-\\d{2}"))) {
+                    fetchNasaData(normalizedInput)
                 } else {
-                    addMessage(Message("請輸入正確的日期格式，例如：2026-04-18", false))
+                    addMessage(Message("請輸入正確的日期格式，例如：2026-04-18 或 2026/04/18", false))
                 }
 
                 editTextMessage.text.clear()
-            }
-        }
-    }
-
-    // 建立一個專門給「今天圖案」用的函數，讓文字不一樣
-    private fun fetchTodayApod(date: String) {
-        lifecycleScope.launch {
-            try {
-                val data = RetrofitClient.nasaService.getApod(date)
-                // 這裡讓機器人說出你要求的文字
-                addMessage(Message("這是今天的 APOD：${data.title}", isUser = false, data))
-            } catch (e: Exception) {
-                // 如果今天還沒更新或網路出錯
-                addMessage(Message("抱歉，我暫時抓不到今天的天象...", isUser = false))
             }
         }
     }
@@ -83,13 +71,49 @@ class MainActivity : AppCompatActivity() {
         recyclerView.scrollToPosition(messageList.size - 1)
     }
 
+    // 建立一個專門給「今天圖案」用的函數，讓文字不一樣
+    private fun fetchTodayApod(date: String) {
+        lifecycleScope.launch {
+            try {
+                val data = RetrofitClient.nasaService.getApod(date)
+                if (data.mediaType == "video") {
+                    // 影片沒有卡片，文字顯示連結
+                    addMessage(Message("這是今天的 APOD：${data.title}\n🎬 影片連結：${data.url}", isUser = false))
+                } else {
+                    // 圖片用卡片顯示
+                    addMessage(Message("這是今天的 APOD：", isUser = false, data))
+                }
+//                val text = if (data.mediaType == "video") {
+//                    "這是今天的 APOD：${data.title}\n📅 ${data.date}\n\n${data.explanation}\n\n🎬 影片連結：${data.url}"
+//                } else {
+//                    "這是今天的 APOD：${data.title}\n📅 ${data.date}\n\n${data.explanation}"
+//                }
+//                val apodArg = if (data.mediaType == "image") data else null
+//                addMessage(Message(text, isUser = false, apodArg))
+            } catch (e: Exception) {
+                addMessage(Message("抱歉，我暫時抓不到今天的天象...", isUser = false))
+            }
+        }
+    }
+
     private fun fetchNasaData(date: String) {
         lifecycleScope.launch {
             try {
                 val data = RetrofitClient.nasaService.getApod(date)
-                addMessage(Message("這是在 $date 拍攝的：${data.title}", false, data))
+                if (data.mediaType == "video") {
+                    addMessage(Message("這是 ${data.date} 的宇宙：${data.title}\n🎬 影片連結：${data.url}", false))
+                } else {
+                    addMessage(Message("這是 ${data.date} 的宇宙：", false, data))
+                }
+//                val text = if (data.mediaType == "video") {
+//                    "這是 ${data.date} 的宇宙：${data.title}\n\n${data.explanation}\n\n🎬 影片連結：${data.url}"
+//                } else {
+//                    "這是 ${data.date} 的宇宙：${data.title}\n\n${data.explanation}"
+//                }
+//                val apodArg = if (data.mediaType == "image") data else null
+//                addMessage(Message(text, false, apodArg))
             } catch (e: Exception) {
-                addMessage(Message("錯誤：${e.message}", false))  // ← 暫時改成這樣除錯
+                addMessage(Message("錯誤：${e.message}", false))
             }
         }
     }

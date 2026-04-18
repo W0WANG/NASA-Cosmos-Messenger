@@ -47,13 +47,20 @@
                 android:textColor="@android:color/white"
                 android:lineSpacingExtra="2dp" />
 
-            <ImageView
-                android:id="@+id/imageApod"
-                android:layout_width="250dp"
+<!--            <ImageView-->
+<!--                android:id="@+id/imageApod"-->
+<!--                android:layout_width="250dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:adjustViewBounds="true"-->
+<!--                android:scaleType="centerInside"-->
+<!--                android:visibility="gone" />-->
+            <include
+                android:id="@+id/apodCard"
+                layout="@layout/item_apod_card"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>

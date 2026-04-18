@@ -17,7 +17,12 @@ class MessageAdapter(private val messages: List<Message>) :
     class MessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val layoutNova: LinearLayout = view.findViewById(R.id.layoutNova)
         val textNovaMessage: TextView = view.findViewById(R.id.textNovaMessage)
-        val imageApod: ImageView = view.findViewById(R.id.imageApod)
+
+        // 卡片元件
+        val apodCard: View = view.findViewById(R.id.apodCard)
+        val imageApodCard: ImageView = apodCard.findViewById(R.id.imageApodCard)
+        val textApodTitle: TextView = apodCard.findViewById(R.id.textApodTitle)
+        val textApodDesc: TextView = apodCard.findViewById(R.id.textApodDesc)
 
         val layoutUser: LinearLayout = view.findViewById(R.id.layoutUser)
         val textUserMessage: TextView = view.findViewById(R.id.textUserMessage)
@@ -45,14 +50,12 @@ class MessageAdapter(private val messages: List<Message>) :
 
             // 處理 NASA 天文圖
             if (message.apodData != null) {
-                holder.imageApod.visibility = View.VISIBLE
-                // 使用 Coil 載入圖片
-                holder.imageApod.load(message.apodData.url) {
-                    crossfade(true)
-                    placeholder(android.R.drawable.ic_menu_gallery)
-                }
+                holder.apodCard.visibility = View.VISIBLE
+                holder.imageApodCard.load(message.apodData.url) { crossfade(true) }
+                holder.textApodTitle.text = message.apodData.title
+                holder.textApodDesc.text = message.apodData.explanation
             } else {
-                holder.imageApod.visibility = View.GONE
+                holder.apodCard.visibility = View.GONE
             }
         }
     }
