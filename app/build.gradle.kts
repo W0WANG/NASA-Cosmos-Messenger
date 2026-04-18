@@ -47,8 +47,6 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -71,4 +69,5 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     // 圖片載入工具
     implementation("io.coil-kt:coil:2.4.0")
+    implementation(kotlin("stdlib"))
 }

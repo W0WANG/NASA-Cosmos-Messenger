@@ -3,6 +3,7 @@ package com.example.nasacosmosmessenger
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -14,7 +15,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var editTextMessage: EditText
-    private lateinit var buttonSend: Button
+    //private lateinit var buttonSend: Button
+    private lateinit var buttonSend: ImageButton
 
     private val messageList = mutableListOf<Message>()
     private lateinit var adapter: MessageAdapter
@@ -33,8 +35,14 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        addMessage(Message("您好，助理!", isUser = true))
+        addMessage(Message("歡迎!輸入日期我會告訴你那天宇宙長什麼樣子。", isUser = false))
         // 3. Nova 主動打招呼
-        addMessage(Message("你好！我是 Nova。輸入日期 (YYYY-MM-DD) 讓我為你導覽宇宙吧！", false))
+        //addMessage(Message("你好！我是 Nova。輸入日期 (YYYY-MM-DD) 讓我為你導覽宇宙吧！", false))
+
+        // 4. Nova 主動抓取今天的 APOD
+        val today = java.time.LocalDate.now().toString() // 取得今日日期 (YYYY-MM-DD)
+        fetchTodayApod(today)
 
         // 4. 設定傳送按鈕
         buttonSend.setOnClickListener {
@@ -51,6 +59,20 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 editTextMessage.text.clear()
+            }
+        }
+    }
+
+    // 建立一個專門給「今天圖案」用的函數，讓文字不一樣
+    private fun fetchTodayApod(date: String) {
+        lifecycleScope.launch {
+            try {
+                val data = RetrofitClient.nasaService.getApod(date)
+                // 這裡讓機器人說出你要求的文字
+                addMessage(Message("這是今天的 APOD：${data.title}", isUser = false, data))
+            } catch (e: Exception) {
+                // 如果今天還沒更新或網路出錯
+                addMessage(Message("抱歉，我暫時抓不到今天的天象...", isUser = false))
             }
         }
     }
