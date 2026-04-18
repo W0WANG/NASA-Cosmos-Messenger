@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                 val data = RetrofitClient.nasaService.getApod(date)
                 addMessage(Message("這是在 $date 拍攝的：${data.title}", false, data))
             } catch (e: Exception) {
-                addMessage(Message("抱歉，我找不到那天的宇宙紀錄或連線出錯了...", false))
+                addMessage(Message("錯誤：${e.message}", false))  // ← 暫時改成這樣除錯
             }
         }
     }
