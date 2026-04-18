@@ -34,6 +34,7 @@ android {
     // 開啟 BuildConfig 功能 (Android Studio 新版本預設可能關閉)
     buildFeatures {
         buildConfig = true
+        viewBinding = true
     }
 
     buildTypes {
