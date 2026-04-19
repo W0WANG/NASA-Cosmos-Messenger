@@ -75,6 +75,17 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        val buttonDatePicker = findViewById<ImageButton>(R.id.buttonDatePicker)
+        buttonDatePicker.setOnClickListener {
+            val datePicker = android.app.DatePickerDialog(this)
+            datePicker.setOnDateSetListener { _, year, month, dayOfMonth ->
+                // month 從 0 開始所以要 +1
+                val date = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
+                editTextMessage.setText(date)
+            }
+            datePicker.show()
+        }
     }
 
     private fun addMessage(message: Message) {
