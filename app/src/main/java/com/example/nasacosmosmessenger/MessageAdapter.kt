@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import android.widget.Toast
 import com.example.nasacosmosmessenger.R
 
 
@@ -54,6 +55,14 @@ class MessageAdapter(private val messages: List<Message>) :
                 holder.imageApodCard.load(message.apodData.url) { crossfade(true) }
                 holder.textApodTitle.text = message.apodData.title
                 holder.textApodDesc.text = message.apodData.explanation
+
+                // 長按儲存收藏
+                holder.apodCard.setOnLongClickListener {
+                    val context = holder.itemView.context
+                    FavoritesManager.add(context, message.apodData)
+                    Toast.makeText(context, "已收藏「${message.apodData.title}」", Toast.LENGTH_SHORT).show()
+                    true
+                }
             } else {
                 holder.apodCard.visibility = View.GONE
             }
