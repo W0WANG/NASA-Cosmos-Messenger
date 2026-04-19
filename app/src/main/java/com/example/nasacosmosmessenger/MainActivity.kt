@@ -106,13 +106,6 @@ class MainActivity : AppCompatActivity() {
                     // 圖片用卡片顯示
                     addMessage(Message("這是今天的 APOD：", isUser = false, data))
                 }
-//                val text = if (data.mediaType == "video") {
-//                    "這是今天的 APOD：${data.title}\n📅 ${data.date}\n\n${data.explanation}\n\n🎬 影片連結：${data.url}"
-//                } else {
-//                    "這是今天的 APOD：${data.title}\n📅 ${data.date}\n\n${data.explanation}"
-//                }
-//                val apodArg = if (data.mediaType == "image") data else null
-//                addMessage(Message(text, isUser = false, apodArg))
             } catch (e: Exception) {
                 addMessage(Message("抱歉，我暫時抓不到今天的天象...", isUser = false))
             }
@@ -128,13 +121,6 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     addMessage(Message("這是 ${data.date} 的宇宙：", false, data))
                 }
-//                val text = if (data.mediaType == "video") {
-//                    "這是 ${data.date} 的宇宙：${data.title}\n\n${data.explanation}\n\n🎬 影片連結：${data.url}"
-//                } else {
-//                    "這是 ${data.date} 的宇宙：${data.title}\n\n${data.explanation}"
-//                }
-//                val apodArg = if (data.mediaType == "image") data else null
-//                addMessage(Message(text, false, apodArg))
             } catch (e: Exception) {
                 addMessage(Message("錯誤：${e.message}", false))
             }
