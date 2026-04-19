@@ -45,6 +45,7 @@
                 android:padding="12dp"
                 android:text="歡迎!輸入日期我會告訴你那天宇宙長什麼樣子。"
                 android:textColor="@android:color/white"
+                android:textColorLink="#90CAF9"
                 android:lineSpacingExtra="2dp" />
 
 <!--            <ImageView-->

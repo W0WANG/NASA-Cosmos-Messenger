@@ -49,6 +49,12 @@ class MessageAdapter(private val messages: List<Message>) :
             holder.layoutUser.visibility = View.GONE
             holder.textNovaMessage.text = message.content
 
+            if (message.content.contains("http")) {
+                holder.textNovaMessage.autoLinkMask = android.text.util.Linkify.WEB_URLS
+                android.text.util.Linkify.addLinks(holder.textNovaMessage, android.text.util.Linkify.WEB_URLS)
+                holder.textNovaMessage.movementMethod = android.text.method.LinkMovementMethod.getInstance()
+            }
+
             // 處理 NASA 天文圖
             if (message.apodData != null) {
                 holder.apodCard.visibility = View.VISIBLE
