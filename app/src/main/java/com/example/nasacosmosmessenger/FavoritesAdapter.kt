@@ -37,6 +37,18 @@ class FavoritesAdapter(
         holder.date.text = apod.date
         holder.desc.text = apod.explanation
 
+        // 點擊進入詳細頁
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = android.content.Intent(context, ApodDetailActivity::class.java).apply {
+                putExtra("title", apod.title)
+                putExtra("date", apod.date)
+                putExtra("explanation", apod.explanation)
+                putExtra("url", apod.url)
+            }
+            context.startActivity(intent)
+        }
+
         // 點星星取消收藏
         holder.buttonUnfavorite.setOnClickListener {
             FavoritesManager.remove(holder.itemView.context, apod)

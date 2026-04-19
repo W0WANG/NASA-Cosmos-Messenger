@@ -56,6 +56,18 @@ class MessageAdapter(private val messages: List<Message>) :
                 holder.textApodTitle.text = message.apodData.title
                 holder.textApodDesc.text = message.apodData.explanation
 
+                // 點擊進入詳細頁
+                holder.apodCard.setOnClickListener {
+                    val context = holder.itemView.context
+                    val intent = android.content.Intent(context, ApodDetailActivity::class.java).apply {
+                        putExtra("title", message.apodData.title)
+                        putExtra("date", message.apodData.date)
+                        putExtra("explanation", message.apodData.explanation)
+                        putExtra("url", message.apodData.url)
+                    }
+                    context.startActivity(intent)
+                }
+
                 // 長按儲存收藏
                 holder.apodCard.setOnLongClickListener {
                     val context = holder.itemView.context
