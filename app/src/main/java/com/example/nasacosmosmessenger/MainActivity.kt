@@ -25,26 +25,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 1. 初始化 UI
+        //初始化 UI
         recyclerView = findViewById(R.id.recyclerView)
         editTextMessage = findViewById(R.id.editTextMessage)
         buttonSend = findViewById(R.id.buttonSend)
 
-        // 2. 設定 RecyclerView
+        //設定 RecyclerView
         adapter = MessageAdapter(messageList)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         addMessage(Message("您好，助理!", isUser = true))
         addMessage(Message("歡迎!輸入日期我會告訴你那天宇宙長什麼樣子。", isUser = false))
-        // 3. Nova 主動打招呼
+        //Nova 主動打招呼
         //addMessage(Message("你好！我是 Nova。輸入日期 (YYYY-MM-DD) 讓我為你導覽宇宙吧！", false))
 
-        // 4. Nova 主動抓取今天的 APOD
+        //Nova 主動抓取今天的 APOD
         val today = java.time.LocalDate.now().toString() // 取得今日日期 (YYYY-MM-DD)
         fetchTodayApod(today)
 
-        // 4. 設定傳送按鈕
+        //設定傳送按鈕
         buttonSend.setOnClickListener {
             val input = editTextMessage.text.toString().trim()
             if (input.isNotBlank()) {
@@ -61,6 +61,18 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 editTextMessage.text.clear()
+            }
+        }
+
+        val bottomNav = findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottomNavigation)
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_nova -> true
+                R.id.nav_favorites -> {
+                    startActivity(android.content.Intent(this, FavoritesActivity::class.java))
+                    true
+                }
+                else -> false
             }
         }
     }
