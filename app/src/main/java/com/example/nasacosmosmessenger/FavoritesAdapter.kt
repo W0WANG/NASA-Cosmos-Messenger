@@ -49,16 +49,6 @@ class FavoritesAdapter(
             context.startActivity(intent)
         }
 
-        // 點星星取消收藏
-//        holder.buttonUnfavorite.setOnClickListener {
-//            FavoritesManager.remove(holder.itemView.context, apod)
-//            favorites.removeAt(position)
-//            notifyItemRemoved(position)
-//            notifyItemRangeChanged(position, favorites.size)
-//            Toast.makeText(holder.itemView.context, "已取消收藏", Toast.LENGTH_SHORT).show()
-//            onRemove(apod)
-//        }
-
         holder.buttonUnfavorite.setOnClickListener {
             android.app.AlertDialog.Builder(holder.itemView.context)
                 .setTitle("刪除收藏")

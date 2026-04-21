@@ -187,7 +187,6 @@ class ApodDetailActivity : AppCompatActivity() {
 
         dialog.findViewById<ImageButton>(R.id.buttonShare).setOnClickListener {
             shareImage(cardBitmap)
-            dialog.dismiss()
         }
 
         dialog.show()

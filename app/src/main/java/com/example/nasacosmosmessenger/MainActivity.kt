@@ -106,14 +106,7 @@ class MainActivity : AppCompatActivity() {
                         videoTitle = data.title,
                         videoDesc = data.explanation.take(100) + "..."
                     ))
-                }
-//                if (data.mediaType == "video") {
-//                    // 影片沒有卡片，文字顯示連結
-//                    //addMessage(Message("這是今天的 APOD：${data.title}\n🎬 影片連結：${data.url}", isUser = false))
-//                    val text = "這是今天的 APOD：${data.url}\n\n<b>${data.title}</b>\n${data.explanation.take(100)}..."
-//                    addMessage(Message(text, isUser = false))
-//                }
-                else {
+                }else {
                     // 圖片用卡片顯示
                     addMessage(Message("這是今天的 APOD：", isUser = false, data))
                 }
@@ -127,11 +120,6 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val data = RetrofitClient.nasaService.getApod(date)
-//                if (data.mediaType == "video") {
-//                    //addMessage(Message("這是 ${data.date} 的宇宙：${data.title}\n🎬 影片連結：${data.url}", false))
-//                    val text = "這是 ${data.date} 的宇宙：${data.url}\n\n<b>${data.title}</b>\n${data.explanation.take(100)}..."
-//                    addMessage(Message(text, false))
-//                }
                 if (data.mediaType == "video") {
                     addMessage(Message(
                         content = "這是 ${data.date} 的宇宙：${data.url}",
@@ -139,8 +127,7 @@ class MainActivity : AppCompatActivity() {
                         videoTitle = data.title,
                         videoDesc = data.explanation.take(100) + "..."
                     ))
-                }
-                else {
+                }else {
                     addMessage(Message("這是 ${data.date} 的宇宙：", false, data))
                 }
             } catch (e: Exception) {

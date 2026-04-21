@@ -53,12 +53,6 @@ class MessageAdapter(private val messages: List<Message>) :
             holder.layoutUser.visibility = View.GONE
             holder.textNovaMessage.text = message.content
 
-//            if (message.content.contains("http")) {
-//                holder.textNovaMessage.autoLinkMask = android.text.util.Linkify.WEB_URLS
-//                android.text.util.Linkify.addLinks(holder.textNovaMessage, android.text.util.Linkify.WEB_URLS)
-//                holder.textNovaMessage.movementMethod = android.text.method.LinkMovementMethod.getInstance()
-//            }
-
             if (message.content.contains("http")) {
                 val spanned = androidx.core.text.HtmlCompat.fromHtml(
                     message.content.replace("\n", "<br>"),
