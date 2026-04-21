@@ -100,9 +100,20 @@ class MainActivity : AppCompatActivity() {
             try {
                 val data = RetrofitClient.nasaService.getApod(date)
                 if (data.mediaType == "video") {
-                    // 影片沒有卡片，文字顯示連結
-                    addMessage(Message("這是今天的 APOD：${data.title}\n🎬 影片連結：${data.url}", isUser = false))
-                } else {
+                    addMessage(Message(
+                        content = "這是今天的 APOD：${data.url}",
+                        isUser = false,
+                        videoTitle = data.title,
+                        videoDesc = data.explanation.take(100) + "..."
+                    ))
+                }
+//                if (data.mediaType == "video") {
+//                    // 影片沒有卡片，文字顯示連結
+//                    //addMessage(Message("這是今天的 APOD：${data.title}\n🎬 影片連結：${data.url}", isUser = false))
+//                    val text = "這是今天的 APOD：${data.url}\n\n<b>${data.title}</b>\n${data.explanation.take(100)}..."
+//                    addMessage(Message(text, isUser = false))
+//                }
+                else {
                     // 圖片用卡片顯示
                     addMessage(Message("這是今天的 APOD：", isUser = false, data))
                 }
@@ -116,14 +127,32 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val data = RetrofitClient.nasaService.getApod(date)
+//                if (data.mediaType == "video") {
+//                    //addMessage(Message("這是 ${data.date} 的宇宙：${data.title}\n🎬 影片連結：${data.url}", false))
+//                    val text = "這是 ${data.date} 的宇宙：${data.url}\n\n<b>${data.title}</b>\n${data.explanation.take(100)}..."
+//                    addMessage(Message(text, false))
+//                }
                 if (data.mediaType == "video") {
-                    addMessage(Message("這是 ${data.date} 的宇宙：${data.title}\n🎬 影片連結：${data.url}", false))
-                } else {
+                    addMessage(Message(
+                        content = "這是 ${data.date} 的宇宙：${data.url}",
+                        isUser = false,
+                        videoTitle = data.title,
+                        videoDesc = data.explanation.take(100) + "..."
+                    ))
+                }
+                else {
                     addMessage(Message("這是 ${data.date} 的宇宙：", false, data))
                 }
             } catch (e: Exception) {
                 addMessage(Message("錯誤：${e.message}", false))
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // 確保回到 Nova 頁時，底部導覽列選中 Nova
+        val bottomNav = findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottomNavigation)
+        bottomNav.selectedItemId = R.id.nav_nova
     }
 }

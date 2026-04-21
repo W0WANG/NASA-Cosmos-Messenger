@@ -89,6 +89,10 @@ class ApodDetailActivity : AppCompatActivity() {
                 showStarCardDialog(cardBitmap)
             }
         }
+
+        findViewById<ImageButton>(R.id.buttonBack).setOnClickListener {
+            finish()
+        }
     }
 
     private fun createStarCard(original: Bitmap, title: String, date: String): Bitmap {

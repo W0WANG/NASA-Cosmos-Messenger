@@ -69,7 +69,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/bg_date_button"
-            android:src="@android:drawable/ic_menu_my_calendar"
+            android:src="@drawable/ic_date_picker"
             app:tint="#000000" />
     </LinearLayout>
 

@@ -50,13 +50,29 @@ class FavoritesAdapter(
         }
 
         // 點星星取消收藏
+//        holder.buttonUnfavorite.setOnClickListener {
+//            FavoritesManager.remove(holder.itemView.context, apod)
+//            favorites.removeAt(position)
+//            notifyItemRemoved(position)
+//            notifyItemRangeChanged(position, favorites.size)
+//            Toast.makeText(holder.itemView.context, "已取消收藏", Toast.LENGTH_SHORT).show()
+//            onRemove(apod)
+//        }
+
         holder.buttonUnfavorite.setOnClickListener {
-            FavoritesManager.remove(holder.itemView.context, apod)
-            favorites.removeAt(position)
-            notifyItemRemoved(position)
-            notifyItemRangeChanged(position, favorites.size)
-            Toast.makeText(holder.itemView.context, "已取消收藏", Toast.LENGTH_SHORT).show()
-            onRemove(apod)
+            android.app.AlertDialog.Builder(holder.itemView.context)
+                .setTitle("刪除收藏")
+                .setMessage("確定要刪除「${apod.title}」嗎？")
+                .setPositiveButton("刪除") { _, _ ->
+                    FavoritesManager.remove(holder.itemView.context, apod)
+                    favorites.removeAt(position)
+                    notifyItemRemoved(position)
+                    notifyItemRangeChanged(position, favorites.size)
+                    Toast.makeText(holder.itemView.context, "已取消收藏", Toast.LENGTH_SHORT).show()
+                    onRemove(apod)
+                }
+                .setNegativeButton("取消", null)
+                .show()
         }
     }
 

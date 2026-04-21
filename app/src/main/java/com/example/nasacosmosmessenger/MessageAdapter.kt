@@ -27,6 +27,10 @@ class MessageAdapter(private val messages: List<Message>) :
 
         val layoutUser: LinearLayout = view.findViewById(R.id.layoutUser)
         val textUserMessage: TextView = view.findViewById(R.id.textUserMessage)
+
+        val layoutVideoPreview: LinearLayout = view.findViewById(R.id.layoutVideoPreview)
+        val textVideoTitle: TextView = view.findViewById(R.id.textVideoTitle)
+        val textVideoDesc: TextView = view.findViewById(R.id.textVideoDesc)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
@@ -49,10 +53,28 @@ class MessageAdapter(private val messages: List<Message>) :
             holder.layoutUser.visibility = View.GONE
             holder.textNovaMessage.text = message.content
 
+//            if (message.content.contains("http")) {
+//                holder.textNovaMessage.autoLinkMask = android.text.util.Linkify.WEB_URLS
+//                android.text.util.Linkify.addLinks(holder.textNovaMessage, android.text.util.Linkify.WEB_URLS)
+//                holder.textNovaMessage.movementMethod = android.text.method.LinkMovementMethod.getInstance()
+//            }
+
             if (message.content.contains("http")) {
-                holder.textNovaMessage.autoLinkMask = android.text.util.Linkify.WEB_URLS
-                android.text.util.Linkify.addLinks(holder.textNovaMessage, android.text.util.Linkify.WEB_URLS)
+                val spanned = androidx.core.text.HtmlCompat.fromHtml(
+                    message.content.replace("\n", "<br>"),
+                    androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
+                )
+                holder.textNovaMessage.text = spanned
                 holder.textNovaMessage.movementMethod = android.text.method.LinkMovementMethod.getInstance()
+                android.text.util.Linkify.addLinks(holder.textNovaMessage, android.text.util.Linkify.WEB_URLS)
+            }
+
+            if (message.videoTitle != null) {
+                holder.layoutVideoPreview.visibility = View.VISIBLE
+                holder.textVideoTitle.text = message.videoTitle
+                holder.textVideoDesc.text = message.videoDesc
+            } else {
+                holder.layoutVideoPreview.visibility = View.GONE
             }
 
             // 處理 NASA 天文圖
